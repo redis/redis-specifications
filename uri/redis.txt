@@ -1,0 +1,188 @@
+(last updated 2015-07-20)
+
+Scheme name:  redis
+
+Status:  Provisional
+
+Applications/protocols that use this scheme name:
+  This scheme is used by some Redis database client libraries to
+  designate the Redis database to connect to, and in some cases to set
+  additional connection parameters of the client library.  Redis client
+  libraries implement the RESP (REdis Serialization Protocol) defined
+  in "Redis Protocol specification".  This URI scheme is not part of
+  that specification.
+
+Contact:
+  Registering party:
+    Chris Rebert <iana.url.schemes.redis&chrisrebert.com>
+
+Change controller:
+  Either the registering party, or
+  Salvatore Sanfilippo <http://invece.org/>
+
+References:
+  Redis, "Redis Protocol specification", 2015,
+      <http://redis.io/topics/protocol>.
+  Redis, "SELECT index", 2015, <http://redis.io/commands/select>.
+  Redis, "AUTH password", 2015, <http://redis.io/commands/auth>.
+  Redis, "Redis Security", 2015, <http://redis.io/topics/security>.
+  Redis, "Redis Encryption", 2015, <http://redis.io/topics/encryption>.
+  Sanfilippo, S., "RCP 1 - Multi users AUTH and ACLs for Redis.",
+      December 2014,
+      <https://github.com/redis/redis-rcp/blob/master/RCP1.md>.
+  Zygmuntowicz, E. and Contributors, "Getting started", 2015, redis-rb,
+      <https://github.com/redis/redis-rb#getting-started>.
+  McCurdy, A. and Contributors, "redis.connection.ConnectionPool
+      .from_url(url, db=None, **kwargs)", redis-py, August 2014,
+      <https://github.com/andymccurdy/redis-py/blob/2.10.3/redis/connection.py#L733>.
+  Solem, A. and Contributors, "Using Redis - Celery 3.0.25
+      documentation", April 2013,
+      <http://celery.readthedocs.org/en/3.0/getting-started/brokers/redis.html>.
+  Driessen, V. and Contributors, "Workers: Using a config file - RQ:
+      Simple job queues for Python", 2015,
+      <http://python-rq.org/docs/workers/>.
+  Service Stack LLC and Contributors, "Redis Connection Strings", 2015,
+      ServiceStack.Redis,
+      <https://github.com/ServiceStack/ServiceStack.Redis#redis-connection-strings>.
+  Dollar, D. and Contributors, "redis-url: URL format", 2015,
+      <https://www.npmjs.com/package/redis-url#url-format>.
+
+Scheme syntax:
+  Example: redis://user:secret@localhost:6379/0?foo=bar&qux=baz
+
+  This scheme uses a profile of the RFC 3986 generic URI syntax.
+  All URI fields after the scheme are optional.
+  The "userinfo" field uses the traditional "user:password" format.
+
+  Expressed using RFC 5234 ABNF, the "path" grammar production from
+  RFC 3986 is overridden as follows:
+    path         = [ path-slashed ]
+                 ; path is optional
+    path-slashed = "/" [ db-number ]
+                 ; exactly zero or one path segments
+    db-number    = "0" / nz-num
+                 ; nonnegative decimal integer with no leading zeros
+    nz-num       = NZDIGIT *DIGIT
+                 ; positive decimal integer with no leading zeros
+    NZDIGIT      = %x31-39
+                 ; the digits 1-9
+
+Scheme semantics:
+  This scheme is used to designate Redis databases that may be accessed
+  via RESP.
+  URIs using this scheme are dereferenced by connecting to the
+  designated Redis server via RESP and then issuing corresponding AUTH
+  and/or SELECT commands if a password and/or database number
+  (respectively) were specified.
+
+  If absent, the default value of the "host" URI field is:
+    "localhost" (or equivalent)
+  If absent, the default value of the "port" URI field is:
+    6379
+    (see the corresponding entry in the Service Name and Transport
+    Protocol Port Number Registry)
+  The database number to use for the Redis SELECT command comes from
+  either the "db-number" portion of the URI (described in the previous
+  section) or the value from the key-value pair from the "query" URI
+  field with the key "db".  If neither of these are present, the
+  default database number is 0.
+  The password to use for the Redis AUTH command comes from either the
+  password portion of the "userinfo" URI field or the value from the
+  key-value pair from the "query" URI field with the key "password".
+  If neither of these are present, the client ought not to issue an
+  initial AUTH command.
+  If a future version of Redis adds support for multi-user
+  authentication (e.g. if RCP1 gets accepted), it's suggested that the
+  username to use when authenticating be obtained from the username
+  portion of the "userinfo" URI field.
+  The semantics of "query" URI field key-value pairs other than those
+  previously mentioned are implementation-defined.
+
+Encoding considerations:
+  Unknown, use with care.
+
+Interoperability considerations:
+  The "fragment" URI field has no known meaning or usage.  Unless it
+  becomes meaningful in the future, omitting it is strongly advised.
+  Redis' current optional authentication mechanism does not employ a
+  username, but this might change in the future (e.g. if RCP1 gets
+  accepted).  Until/unless that happens: URI producers are advised to
+  leave the username portion of the "userinfo" URI field blank; URI
+  consumers are advised to be aware of the future possibility of
+  non-blank username portions of URIs; attempting to use the username
+  portion of URIs for any purpose other than specifying the username to
+  use when authenticating to the Redis server is strongly advised
+  against.
+  The "query" URI field is used to specify client-library-
+  implementation-specific connection parameters and is therefore not
+  portable.  Using it without knowledge of which specific client
+  library is going to be used ought to be avoided.
+  The meaning of "path" URI field values that do not conform to the
+  "db-number" grammar have no known meaning or usage.  Using such
+  values ought to be avoided.
+  If both a "db-number" value and a "query" URI field key-value pair
+  with the key "db" are present, the semantics for what Redis database
+  number to use are not well-defined.  Such situations therefore ought
+  to be avoided.
+  If both the password portion of the "userinfo" URI field and a
+  "query" URI field key-value pair with the key "password" are present,
+  the semantics for what password to use for authentication are not
+  well-defined.  Such situations therefore ought to be avoided.
+
+Security considerations:
+  Not fully known, use with care.
+  Since this is merely a registration of the redis: URI scheme and not
+  an RFC defining RESP, full security considerations for RESP itself
+  are beyond the scope of this document.  Considerations in this
+  document will be mostly limited to the redis: URI scheme itself.
+  Some considerations for Redis and RESP may be found in the "Redis
+  Security" and "Redis Encryption" documents.
+  As redis: URIs might contain authentication credentials or designate
+  Redis servers which allow unauthenticated access, care ought to be
+  taken to not leak the credentials to unauthorized persons, e.g. by
+  outputting the URIs in logs or error messages.
+  According to "Redis Security": "Redis is designed to be accessed by
+  trusted clients inside trusted environments.  This means that usually
+  it is not a good idea to expose the Redis instance directly to the
+  internet or, in general, to an environment where untrusted clients
+  can directly access the Redis [server]."  Accordingly, exposing
+  redis: URIs on the internet or to untrusted clients is not advisable.
+  If Redis' authentication mechanism adds support for usernames (e.g.
+  if RCP1 gets accepted) in the future, some older services which
+  ignore the username portion of URIs and some newer services which are
+  aware of Redis usernames might interpret a given Redis URI with a
+  username differently from each other.  This might make the system
+  vulnerable to privilege escalation or other related attacks.
+  "Redis Security" advises the usage of strong and very long passwords
+  to defend against brute-force password-guessing attacks.  redis: URIs
+  can therefore be correspondingly long, and users are advised to be
+  prepared to handle very long URIs and password values.
+  redis: URIs may refer to hosts using domain names.  The domain name
+  resolution process is subject to its own set of security
+  considerations (RFC 4033).
+  RESP is a simple unencrypted protocol and thus does not provide
+  assurances of confidentiality or data integrity.  Combined with
+  RESP's username/password authentication mechanism, the considerations
+  in RFC 3552 (BCP 72), Section 4.1.1 are applicable.  "Redis Security"
+  advises the usage of additional specific security measures to help
+  mitigate the weakness of Redis' authentication mechanism.
+  Using RESP over TLS (RFC 5246), as mentioned in "Redis Encryption",
+  along with public key certificates, can provide assurances of peer
+  entity authentication (or merely host authentication if client
+  certificates are not used), confidentiality, and data integrity.  It
+  is theoretically possible to use client certificates as an
+  alternative Redis-level authentication/login mechanism in place of
+  the username/password-based "AUTH" RESP command.  Apparently named by
+  analogy to HTTPS (RFC 2818), the rediss: URI scheme (yes, two "s"es,
+  not a typo) has been used by some clients to designate RESP over TLS.
+  Other than the usage of TLS, the rediss: URI scheme is not known to
+  have any differences from the redis: URI scheme.
+  redis: URIs may indirectly slightly facilitate denial of service
+  attacks against Redis servers by making it easier to communicate the
+  connection details of targeted Redis servers/databases among systems
+  conducting such attacks.
+
+Acknowledgments:
+  The author of this registration document gratefully acknowledges the
+  feedback provided by Graham Klyne of Nine by Nine and Itamar Haber of
+  Redis Labs on drafts of this document.

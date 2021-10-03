@@ -1,0 +1,94 @@
+(registered 2015-07-21, last updated 2015-07-21)
+
+Scheme name:  rediss
+
+Status:  Provisional
+
+Applications/protocols that use this scheme name:
+  This scheme is used by some Redis database client libraries to
+  designate the Redis database to connect to via RESP (REdis
+  Serialization Protocol) over TLS (RFC 5246), and in some cases to set
+  additional connection parameters of the client library.  Redis client
+  libraries implement RESP as defined in "Redis Protocol
+  specification".  This URI scheme is not part of that specification.
+  The scheme name (with an extra "s" at the end compared to the redis:
+  URI scheme) was apparently named by analogy to HTTPS (RFC 2818), and
+  is not a typo.
+
+Contact:
+  Registering party:
+    Chris Rebert <iana.url.schemes.redis&chrisrebert.com>
+
+Change controller:
+  Either the registering party, or
+  Salvatore Sanfilippo <http://invece.org/>
+
+References:
+  Rebert, C., "redis", 20 July 2015, Uniform Resource Identifier (URI)
+      Schemes registry, Internet Assigned Numbers Authority (IANA),
+      <http://www.iana.org/assignments/uri-schemes/prov/redis>.
+  Redis, "Redis Protocol specification", 2015,
+      <http://redis.io/topics/protocol>.
+  Redis, "Redis Encryption", 2015, <http://redis.io/topics/encryption>.
+  Redis, "SELECT index", 2015, <http://redis.io/commands/select>.
+  Redis, "AUTH password", 2015, <http://redis.io/commands/auth>.
+  McCurdy, A. and Contributors, "redis.connection.ConnectionPool
+      .from_url(url, db=None, **kwargs)", redis-py, August 2014,
+      <https://github.com/andymccurdy/redis-py/blob/2.10.3/redis/connection.py#L733>.
+  Service Stack LLC and Contributors, "Redis Connection Strings", 2015,
+      ServiceStack.Redis,
+      <https://github.com/ServiceStack/ServiceStack.Redis#redis-connection-strings>.
+
+Scheme syntax:
+  Example: rediss://user:secret@localhost:6379/0?foo=bar&qux=baz
+
+  Other than the difference in scheme name, the rediss: scheme uses the
+  same syntax as the redis: scheme.  See the IANA registration for the
+  redis: scheme for details.
+
+Scheme semantics:
+  This scheme is used to designate Redis databases that may be accessed
+  via RESP over TLS (RFC 5246).
+  URIs using this scheme are dereferenced by connecting to the
+  designated Redis server via RESP over TLS and then issuing
+  corresponding AUTH and/or SELECT commands if a password and/or
+  database number (respectively) were specified.
+
+  Other than the usage of TLS, the rediss: scheme has the same
+  semantics as the redis: scheme.  See the IANA registration for the
+  redis: scheme for details.
+
+Encoding considerations:
+  Unknown, use with care.
+
+Interoperability considerations:
+  All interoperability considerations for the redis: scheme are also
+  applicable to the rediss: scheme.  See the IANA registration for the
+  redis: scheme for details.
+
+  At the time of writing this registration, support for the rediss:
+  scheme is significantly less widespread than support for the redis:
+  scheme.
+
+  Some Redis client libraries (such as ServiceStack.Redis), instead of
+  using the rediss: scheme, use the redis: URI scheme along with a
+  query URI component key-value pair with the key "ssl" that controls
+  the usage of TLS.  The key-value pair's values are "true" and
+  "false", which respectively enable or disable TLS.
+  Example: redis://localhost/0?ssl=true
+
+Security considerations:
+  Not fully known, use with care.
+
+  Most security considerations for the redis: URI scheme also apply to
+  the rediss: URI scheme.  See the IANA registration for the redis:
+  scheme for details.
+
+  In contrast to plain RESP, using RESP over TLS (RFC 5246) as
+  mentioned in "Redis Encryption", along with public key certificates,
+  can provide assurances of peer entity authentication (or merely host
+  authentication if client certificates are not used), confidentiality,
+  and data integrity.  It is theoretically possible to use client
+  certificates as an alternative Redis-level authentication/login
+  mechanism in place of the username/password-based "AUTH" RESP
+  command.
