@@ -1,6 +1,6 @@
 # Redis Client Library Command Specification
 
-Redis client libraries provide helper functions for communicating with Redis. This specification exists to describe the format of the file used by redis clients, to communicate their function usage with Redis. 
+Redis client libraries provide helper functions for communicating with Redis. This specification exists to describe the format of the file used by redis clients, to communicate their function usage with Redis.
 
 ## Implementation
 
@@ -22,7 +22,7 @@ The following is the basic example of the *functions.json* specification.
             "example": [
                 "import redis",
                 "r = redis.Redis()",
-                "r.set('foo', 'bar)",
+                "r.set('foo', 'bar')",
             ],
             "added": "2.0",
             "history": [
@@ -44,7 +44,7 @@ The following is the basic example of the *functions.json* specification.
     }
 
 ## Field Descriptions
- 
+
 * name - This is the name of client library
 * language - The language of the client library
 
@@ -52,7 +52,7 @@ The following is the basic example of the *functions.json* specification.
     * repository - A link to the source code for the Redis client library
     * issues_url - A link to open tickets for the client library
 
-* commands - A map of commands, keyed to the redis command name, with links to their respective documentation. 
+* commands - A map of commands, keyed to the redis command name, with links to their respective documentation.
 
     * uri - The link to the documentation for the associated redis command
     * example *(Optional)* - A list of strings, comprising of an example of the function usage
