@@ -32,7 +32,7 @@ The following is the basic example of the *usage.json* specification.
                  {
                 "version": "4.0.0",
                 "note": "Added support for exat expiration flag",
-                "release Notes": "https://github.com/redis/redis-py/releases/tag/v4.0.0"
+                "releasenotes": "https://github.com/redis/redis-py/releases/tag/v4.0.0"
                 }
             ]
         },
@@ -65,7 +65,7 @@ The following is the basic example of the *usage.json* specification.
     * examples *(Optional)* - A list of dictionaries, each comprising of an example of the function usage. Each dictionary contains the following elements:
         *  name - A name describing what the example does
         * description - A brief description of the example
-        * example - A plain text entry containing the example. Newlines 
+        * example - A plain text entry containing the example. Newlines
         * explanation *(Optional)* - Text describing in depth, what the example does.
 
     * added *(Optional)* - The version of the client library containing this function
