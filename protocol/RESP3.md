@@ -270,12 +270,13 @@ However the client library should return a floating point number in one
 case and an integer in the other case, if the programming language in which
 the client is implemented has a clear distinction between the two types.
 
-In addition the double reply may return positive or negative infinity, and NaN
-as the following three stings:
+In addition the double reply may return positive or negative infinity,
+and positive or negative NaN as the following four stings:
 
     ",inf\r\n"
     ",-inf\r\n"
     ",nan\r\n"
+    ",-nan\r\n"
 
 So client implementations should be able to handle this correctly.
 
