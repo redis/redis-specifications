@@ -8,6 +8,7 @@ Versions history:
                    sending their feedbacks. No actual change to the protocol
                    was made.
 * 1.3, 11 Mar 2019, Streamed strings and streamed aggregated types.
+* 1.4, xx Dec 2022, Normalize NaN to a single representation "nan" and forbid "-nan".
 
 ## Background
 
@@ -270,21 +271,15 @@ However the client library should return a floating point number in one
 case and an integer in the other case, if the programming language in which
 the client is implemented has a clear distinction between the two types.
 
-In addition, the double reply may return positive or negative infinity
-as the following two stings:
+In addition the double reply may return positive or negative infinity,
+and NaN as the following three stings:
 
     ",inf\r\n"
     ",-inf\r\n"
-
-In addition, before Redis 7.2, the double reply may return positive or negative NaN
-as the following two stings:
-
     ",nan\r\n"
-    ",-nan\r\n"
 
-Starting from Redis 7.2, any form of NaN will be normalized to a single nan string:
-
-    ",nan\r\n"
+In earlier versions of this specification, `,-nan\r\n` "negative NaN" was also valid.
+Note that Redis prior to version 7.2 may return any representation of NaN produced by libc, such as "-nan", "NAN" or "nan(char-sequence)".
 
 So client implementations should be able to handle this correctly.
 
