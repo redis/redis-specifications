@@ -8,6 +8,7 @@ Versions history:
                    sending their feedbacks. No actual change to the protocol
                    was made.
 * 1.3, 11 Mar 2019, Streamed strings and streamed aggregated types.
+* 1.4, 5 Jan 2023, Mark the map type as being unordered rather than ordered
 
 ## Background
 
