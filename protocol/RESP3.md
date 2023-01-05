@@ -9,6 +9,7 @@ Versions history:
                    was made.
 * 1.3, 11 Mar 2019, Streamed strings and streamed aggregated types.
 * 1.4, 8 Dec 2022, Normalize NaN to a single representation "nan" and forbid "-nan" (Effective since Redis 7.2).
+* 1.4, 5 Jan 2023, Mark the map type as being unordered rather than ordered (Effective since Redis 6.2)
 
 ## Background
 
@@ -169,7 +170,7 @@ The following are the types implemented by RESP3:
 * Boolean: true or false
 * Blob error: binary safe error code and message.
 * Verbatim string: a binary safe string that should be displayed to humans without any escaping or filtering. For instance the output of `LATENCY DOCTOR` in Redis.
-* Map: an ordered collection of key-value pairs. Keys and values can be any other RESP3 type.
+* Map: an unordered collection of key-value pairs. Keys and values can be any other RESP3 type.
 * Set: an unordered collection of N other types.
 * Attribute: Like the Map type, but the client should keep reading the reply ignoring the attribute type, and return it to the client as additional information.
 * Push: Out of band data. The format is like the Array type, but the client should just check the first string element, stating the type of the out of band data, a call a callback if there is one registered for this specific type of push information. Push types are not related to replies, since they are information that the server may push at any time in the connection, so the client should keep reading if it is reading the reply of a command.
