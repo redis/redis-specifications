@@ -9,7 +9,7 @@ Versions history:
                    was made.
 * 1.3, 11 Mar 2019, Streamed strings and streamed aggregated types.
 * 1.4, 8 Dec 2022, Normalize NaN to a single representation "nan" and forbid "-nan" (Effective since Redis 7.2).
-* 1.4, 5 Jan 2023, Mark the map type as being unordered rather than ordered (Effective since Redis 6.2)
+* 1.5, 5 Jan 2023, Mark the map type as being unordered rather than ordered (Effective since Redis 6.2)
 
 ## Background
 
