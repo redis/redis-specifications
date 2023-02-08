@@ -58,6 +58,16 @@ Scheme semantics:
   semantics as the redis: scheme.  See the IANA registration for the
   redis: scheme for details.
 
+Reserved URI fields:
+
+  The following field names are reserved within the URI context.
+These are expressed using RGC 5234 ABNF, and are reserved as follows:
+
+  protocol       = DIGIT / "."
+                 ; this is optional, corresponding to the version of
+                 ; the RESP protocol requested.
+                 ; the digits 0-9, and a period
+
 Encoding considerations:
   Unknown, use with care.
 
