@@ -10,6 +10,7 @@ Versions history:
 * 1.3, 11 Mar 2019, Streamed strings and streamed aggregated types.
 * 1.4, 8 Dec 2022, Normalize NaN to a single representation "nan" and forbid "-nan" (Effective since Redis 7.2).
 * 1.5, 5 Jan 2023, Mark the map type as being unordered rather than ordered (Effective since Redis 6.2)
+* 1.6, 9 March 2023, Allow doubles in scientific E notation (Effective since Redis 6.0).
 
 ## Background
 
@@ -259,9 +260,13 @@ Or as an escaped string:
 
     ",1.23\r\n"
 
+The number itself consists of an integral part, an optional fractional part and an optional exponent part.
+The integral part consists of one or more decimal digits.
+The optional fractional part consists of a dot (`.`) followed by one or more decimal digits.
+The optional exponent part consists of `E` or `e`, an optional `+` or `-` and one or more decimal digits.
+
 To just start with `.` assuming an initial zero is invalid.
-Exponential format is invalid.
-To completely miss the decimal part, that is, the point followed by other
+To completely miss the fractional part, that is, the point followed by other
 digits, is valid, so the number 10 may be returned both using the number
 or double format:
 
