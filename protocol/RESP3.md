@@ -591,8 +591,7 @@ first element of the array is always a String item, representing the kind
 of push data the server is sending to the client. All the other fields in the
 push array are type dependent, which means that depending on the type string
 as first argument, the remaining items will be interpreted following different
-conventions. The existing push data in RESP version 2 will be represented
-in RESP3 by the push types `message` and `monitor`.
+conventions.
 
 This is an example of push data:
 
