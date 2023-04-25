@@ -604,9 +604,8 @@ This is an example of push data:
 *Note that the above format uses simple strings for simplicity, the
 actual Redis implementation would use blob strings instead*
 
-In the above example the push data type is `message`. From this, we know that
-it's a Pub/Sub message (other types may be `subscribe`, `unsubscribe`, and so
-forth), which is followed by the channel name and the message itself.
+The example shows how Redis pushes a Pub/Sub message.
+In this case, the push data type is `message`, which is followed by the channel's name and the message itself.
 
 Push data may be interleaved with any protocol data, but always at the top
 level, so the client will never find push data in the middle of a Map reply
