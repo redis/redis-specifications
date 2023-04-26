@@ -591,13 +591,11 @@ first element of the array is always a String item, representing the kind
 of push data the server is sending to the client. All the other fields in the
 push array are type dependent, which means that depending on the type string
 as first argument, the remaining items will be interpreted following different
-conventions. The existing push data in RESP version 2 will be represented
-in RESP3 by the push types `pubsub` and `monitor`.
+conventions.
 
 This is an example of push data:
 
-    >4<CR><LF>
-    +pubsub<CR><LF>
+    >3<CR><LF>
     +message<CR><LF>
     +somechannel<CR><LF>
     +this is the message<CR><LF>
@@ -605,10 +603,8 @@ This is an example of push data:
 *Note that the above format uses simple strings for simplicity, the
 actual Redis implementation would use blob strings instead*
 
-In the above example the push data type is `pubsub`. For this type, if
-the next element is `message` we know that it's a Pub/Sub message (other
-sub types may be subscribe, unsubscribe, and so forth), which is followed
-by the channel name and the message itself.
+The example shows how Redis pushes a Pub/Sub message.
+In this case, the push data type is `message`, which is followed by the channel's name and the message itself.
 
 Push data may be interleaved with any protocol data, but always at the top
 level, so the client will never find push data in the middle of a Map reply
@@ -628,8 +624,7 @@ consume before.
 For instance after a `GET key` command, it is possible to get the two following
 valid replies:
 
-    >4<CR><LF>
-    +pubsub<CR><LF>
+    >3<CR><LF>
     +message<CR><LF>
     +somechannel<CR><LF>
     +this is the message<CR><LF>
@@ -640,8 +635,7 @@ Or in inverse order:
 
     $9<CR><LF>
     Get-Reply<CR><LF>
-    >4<CR><LF>
-    +pubsub<CR><LF>
+    >3<CR><LF>
     +message<CR><LF>
     +somechannel<CR><LF>
     +this is the message<CR><LF>
