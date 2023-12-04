@@ -108,6 +108,12 @@ These are expressed using RGC 5234 ABNF, and are reserved as follows:
                  ; the RESP protocol requested.
                  ; the digits 0-9, and a period
 
+  caching        = DIGIT
+                 ; this is optional, but if set to 1, will enable
+                 ; client side caching in the redis client implementation
+                 ; with the client-specific default settings.
+                 ; the digits 0 or 1
+
 Encoding considerations:
   Unknown, use with care.
 
@@ -119,7 +125,7 @@ Interoperability considerations:
   accepted).  Until/unless that happens: URI producers are advised to
   leave the username portion of the "userinfo" URI field blank; URI
   consumers are advised to be aware of the future possibility of
-  non-blank username portions of URIs; attempting to use the username
+  non-blank username portions of Unis; attempting to use the username
   portion of URIs for any purpose other than specifying the username to
   use when authenticating to the Redis server is strongly advised
   against.
