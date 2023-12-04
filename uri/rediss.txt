@@ -68,6 +68,12 @@ These are expressed using RGC 5234 ABNF, and are reserved as follows:
                  ; the RESP protocol requested.
                  ; the digits 0-9, and a period
 
+  caching        = DIGIT
+                 ; this is optional, but if set to 1, will enable
+                 ; client side caching in the redis client implementation
+                 ; with the client-specific default settings.
+                 ; the digits 0 or 1
+
 Encoding considerations:
   Unknown, use with care.
 
